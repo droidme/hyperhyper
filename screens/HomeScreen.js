@@ -8,7 +8,7 @@ import HyperMapListItem from "../components/HyperMapListItem.js";
 
 const HomeScreen = ({ navigation }) => {
 
-  const simpleMaps = [
+  const maps = [
     {
       "id": 1,
       "name": "CAMT",
@@ -47,11 +47,14 @@ const HomeScreen = ({ navigation }) => {
     }
   ]
 
+  //Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
+
   const signOut = () => {
     auth.signOut().then(() => {
       navigation.replace("Login");
     });
   };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "HyperHyper",
@@ -61,27 +64,31 @@ const HomeScreen = ({ navigation }) => {
       headerLeft: () => (
         <View style={styles.headerLeftContainer}>
           <TouchableOpacity activeOpacity={0.5} onPress={signOut}>
-            <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
+            <Avatar rounded source={require("../assets/avatar.png")} />
           </TouchableOpacity>
         </View>
       ),
       headerRight: () => (
         <View style={styles.headerRightContainer}>
           <TouchableOpacity>
-            <AntDesign name="camerao" size={24} color="black" />
+            <SimpleLineIcons name="settings" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("AddMap")}>
-            <SimpleLineIcons name="pencil" size={24} color="black" />
+            <SimpleLineIcons name="plus" size={24} color="black" />
           </TouchableOpacity>
         </View>
       ),
     });
   }, [navigation]);
 
+  const enterMap = (map) => {
+    navigation.navigate("Map", map);
+  }
+
   return (
     <SafeAreaView>
       <ScrollView>
-        {simpleMaps.map(m => <HyperMapListItem key={m.id} map={m} />)}
+        {maps.map(m => <HyperMapListItem key={m.id} map={m} enterMap={() => enterMap(m)} />)}
       </ScrollView>
     </SafeAreaView>
   );

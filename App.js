@@ -8,6 +8,7 @@ import LoginScreen from "./screens/LoginScreen.js";
 import RegisterScreen from "./screens/RegisterScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import AddMapScreen from "./screens/AddMapScreen.js";
+import MapScreen from "./screens/MapScreen.js";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
         <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
+        <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,18 +1,33 @@
-import React, { useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Input, Button } from "react-native-elements";
-import { AntDesign } from "@expo/vector-icons";
-import { Alert } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Input, Text, ListItem, Avatar } from "react-native-elements";
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
 
 const AddMapScreen = ({ navigation }) => {
-  const [map, setMap] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [maps, setMaps] = useState([]);
+  const [filter, setFilter] = useState(null);
 
-  const createMap = async () => {
+  useEffect(() => {
+    const unsubscribe = db
+      .collection('maps')
+      .onSnapshot((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMaps(data);
+        console.log('maps:', data);
+      });
+    return unsubscribe
+  });
+
+  const addMap = async (map) => {
     await db
-      .collection("myMaps")
+      .collection("userMaps")
       .add({
-        user: auth.currentUser.email,
+        user: auth.currentUser.uid,
         mapNameName: map,
       })
       .then(() => {
@@ -28,16 +43,35 @@ const AddMapScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
+
+  const keyExtractor = (item, index) => index.toString();
+
+  const renderMapItem = ({ item }) => (
+    <ListItem bottomDivider>
+      <Avatar source={require('../assets/map.png')} />
+      <ListItem.Content>
+        <ListItem.Title>{item.MAPS_NAME}</ListItem.Title>
+      </ListItem.Content>
+      <TouchableOpacity onPress={() => addMap(item)}>
+        <SimpleLineIcons name="plus" size={24} color="black" />
+      </TouchableOpacity>
+    </ListItem>
+  );
+
   return (
     <View style={styles.container}>
       <Input
-        placeholder="Enter a map name"
-        leftIcon={<AntDesign name="wechat" size={24} color="black" />}
-        value={map}
-        onChangeText={(text) => setMap(text)}
-        onSubmitEditing={createMap}
+        placeholder="Filter for maps"
+        leftIcon={<AntDesign name="search1" size={24} color="black" />}
+        value={filter}
+        onChangeText={setFilter}
       />
-      <Button title="Create new Map" onPress={createMap} />
+      <FlatList
+        keyExtractor={keyExtractor}
+        data={maps}
+        renderItem={renderMapItem}
+      />
+      <Text>{filter}</Text>
     </View>
   );
 };

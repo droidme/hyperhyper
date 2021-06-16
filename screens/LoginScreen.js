@@ -29,6 +29,7 @@ const LoginScreen = ({ navigation }) => {
       .catch((err) => Alert.alert(err.message));
   };
 
+
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light"></StatusBar>
