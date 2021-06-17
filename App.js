@@ -9,6 +9,7 @@ import RegisterScreen from "./screens/RegisterScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import AddMapScreen from "./screens/AddMapScreen.js";
 import MapScreen from "./screens/MapScreen.js";
+import PlayWithFireBase from "./screens/PlayWithFireBase.js";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
         <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
         <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
+        <Stack.Screen name="Play" component={PlayWithFireBase}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

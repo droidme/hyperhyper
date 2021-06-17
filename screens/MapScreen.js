@@ -1,9 +1,7 @@
 import React, { useLayoutEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 
 const MapScreen = ({ navigation, route }) => {
-
-    console.log(route);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -14,6 +12,7 @@ const MapScreen = ({ navigation, route }) => {
 
     return (
         <View>
+            <StatusBar style="light"></StatusBar>
             <Text>Maps {route.params.name}</Text>
         </View>
     )

@@ -70,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
       ),
       headerRight: () => (
         <View style={styles.headerRightContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Play")}>
             <SimpleLineIcons name="settings" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("AddMap")}>

@@ -1,11 +1,10 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, View, TouchableOpacity, StatusBar } from "react-native";
 import { Input, Text, ListItem, Avatar } from "react-native-elements";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
 
 const AddMapScreen = ({ navigation }) => {
-  const [selected, setSelected] = useState([]);
   const [maps, setMaps] = useState([]);
   const [filter, setFilter] = useState(null);
 
@@ -18,20 +17,19 @@ const AddMapScreen = ({ navigation }) => {
           ...doc.data(),
         }));
         setMaps(data);
-        console.log('maps:', data);
       });
     return unsubscribe
-  });
+  }, []);
 
   const addMap = async (map) => {
     await db
       .collection("userMaps")
       .add({
         user: auth.currentUser.uid,
-        mapNameName: map,
+        map: map.id,
       })
       .then(() => {
-        navigation.goBack();
+        //navigation.goBack();
       })
       .catch((error) => alert(error));
   };
@@ -60,6 +58,7 @@ const AddMapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light"></StatusBar>
       <Input
         placeholder="Filter for maps"
         leftIcon={<AntDesign name="search1" size={24} color="black" />}
