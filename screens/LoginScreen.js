@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { Image, Button, Input } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
-import { auth } from "../firebase.js";
+import { auth, getMessagingToken } from "../firebase.js";
 import { Alert } from "react-native";
 
 const LoginScreen = ({ navigation }) => {
@@ -13,6 +13,7 @@ const LoginScreen = ({ navigation }) => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log('authUser:' + authUser?.email);
       if (authUser) {
+        getMessagingToken();
         navigation.replace("Home");
       }
     });

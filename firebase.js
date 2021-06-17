@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/messaging";
 //import "firebase/database";
 //import "firebase/functions";
 //import "firebase/storage";
@@ -36,5 +37,45 @@ firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
+const messaging = firebase.messaging();
 
-export { auth, db };
+
+
+const getMessagingToken = () => {
+  return messaging.getToken({ vapidKey: 'BD2cigDiDWXJYm1vN-9vRco3-znK-YUTR6bOrYvkZU2RjEHyuVpYXdpuz-wyTckDrshBULT462eX8ENSejzmeJg' })
+    .then((currentToken) => {
+      if (currentToken) {
+        console.log("FCM token> ", currentToken);
+        db.collection("tokens")
+          .doc(currentToken)
+          .set({token: currentToken});
+      } else {
+        console.log('No registration token available. Request permission to generate one.');
+        // shows on the UI that permission is required 
+      }
+    }).catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+      // catch error while creating client token
+    });
+}
+
+messaging.onMessage((payload) => {
+  console.log("Message received. ", payload);
+  const { title, ...options } = payload.notification;
+  navigator.serviceWorker.register("firebase-messaging-sw.js");
+  function showNotification() {
+    Notification.requestPermission(function (result) {
+      if (result === "granted") {
+        navigator.serviceWorker.ready.then(function (registration) {
+          registration.showNotification(payload.notification.title, {
+            body: payload.notification.body,
+            tag: payload.notification.tag,
+          });
+        });
+      }
+    });
+  }
+  showNotification();
+});
+
+export { auth, db, getMessagingToken };
