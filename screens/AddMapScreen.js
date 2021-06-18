@@ -16,6 +16,7 @@ const AddMapScreen = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         }));
+        console.log(data);
         setMaps(data);
       });
     return unsubscribe
@@ -37,7 +38,7 @@ const AddMapScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Add a new Map",
-      headerBackTitle: "Maps",
+      headerBackTitle: "Hyper",
     });
   }, [navigation]);
 
@@ -48,7 +49,7 @@ const AddMapScreen = ({ navigation }) => {
     <ListItem bottomDivider>
       <Avatar source={require('../assets/map.png')} />
       <ListItem.Content>
-        <ListItem.Title>{item.MAPS_NAME}</ListItem.Title>
+        <ListItem.Title>{item.NAME}</ListItem.Title>
       </ListItem.Content>
       <TouchableOpacity onPress={() => addMap(item)}>
         <SimpleLineIcons name="plus" size={24} color="black" />

@@ -1,63 +1,18 @@
-import React, { useLayoutEffect } from "react";
-import { TouchableOpacity } from "react-native";
-import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { StyleSheet, View, SafeAreaView, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { Avatar } from "react-native-elements";
-import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
-import { auth } from "../firebase.js";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import { auth, db } from "../firebase.js";
 import HyperMapListItem from "../components/HyperMapListItem.js";
 
 const HomeScreen = ({ navigation }) => {
 
-  const maps = [
-    {
-      "id": 1,
-      "name": "CAMT",
-      "description": "some informational text about camt",
-      "coria-id": "xx-xx-xx",
-      "objects": 10,
-      "critical": 2,
-      "warnings": 1
-    },
-    {
-      "id": 2,
-      "name": "ICS",
-      "description": "some informational text about ics",
-      "coria-id": "xx-xx-xx",
-      "objects": 12,
-      "critical": 1,
-      "warnings": 0
-    },
-    {
-      "id": 3,
-      "name": "CEDRS",
-      "description": "LUXCil Products run always without errors",
-      "coria-id": "xx-xx-xx",
-      "objects": 6,
-      "critical": 0,
-      "warnings": 0
-    },
-    {
-      "id": 4,
-      "name": "LOANIQ",
-      "description": "Always in a good shape",
-      "coria-id": "xx-xx-xx",
-      "objects": 10,
-      "critical": 0,
-      "warnings": 0
-    }
-  ]
-
-  //Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
-
-  const signOut = () => {
-    auth.signOut().then(() => {
-      navigation.replace("Login");
-    });
-  };
+  const [loading, setLoading] = useState(true);
+  const [maps, setMaps] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "HyperHyper",
+      title: "Hyper",
       headerStyle: styles.headerStyle,
       headerTitleStyle: styles.headerTitleStyle,
       headerTintStyle: styles.headerTintStyle,
@@ -70,7 +25,7 @@ const HomeScreen = ({ navigation }) => {
       ),
       headerRight: () => (
         <View style={styles.headerRightContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Play")}>
+          <TouchableOpacity disabled onPress={() => navigation.navigate("Play")}>
             <SimpleLineIcons name="settings" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("AddMap")}>
@@ -81,9 +36,41 @@ const HomeScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
+  // load data
+  useEffect(() => {
+    const unsubscribe = db
+      .collection('maps')
+      .orderBy('ALERTS.CRITICAL', 'desc')
+      .orderBy('ALERTS.MAJOR', 'desc')
+      .orderBy('ALERTS.WARNING', 'desc')
+      .orderBy('ALERTS.MINOR', 'desc')
+      .onSnapshot((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(data);
+        setMaps(data);
+      });
+    setLoading(false);
+    return unsubscribe
+  }, []);
+
+  // some functions
+
   const enterMap = (map) => {
     navigation.navigate("Map", map);
   }
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      navigation.replace("Login");
+    });
+  };
+
+  if (loading) {
+    return <ActivityIndicator />;
+  };
 
   return (
     <SafeAreaView>

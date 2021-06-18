@@ -4,12 +4,15 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "./screens/LoginScreen.js";
-import RegisterScreen from "./screens/RegisterScreen.js";
-import HomeScreen from "./screens/HomeScreen.js";
-import AddMapScreen from "./screens/AddMapScreen.js";
-import MapScreen from "./screens/MapScreen.js";
-import PlayWithFireBase from "./screens/PlayWithFireBase.js";
+import {
+  LoginScreen,
+  RegisterScreen,
+  ProfileScreen,
+  HomeScreen,
+  AddMapScreen,
+  MapScreen,
+  PlayWithFireBase
+} from "./screens/index.js";
 
 const Stack = createStackNavigator();
 
@@ -26,9 +29,11 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
         <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+        <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
         <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
         <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
         <Stack.Screen name="Play" component={PlayWithFireBase}></Stack.Screen>
+
       </Stack.Navigator>
     </NavigationContainer>
   );

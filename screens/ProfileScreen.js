@@ -1,13 +1,11 @@
 import React, { useLayoutEffect } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 
-const MapScreen = ({ navigation, route }) => {
-
-    const { id, NAME, ALERTS } = route.params;
+const ProfileScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: NAME,
+            title: "Profile",
             headerBackTitle: "Hyper",
         });
     }, [navigation]);
@@ -15,10 +13,11 @@ const MapScreen = ({ navigation, route }) => {
     return (
         <View>
             <StatusBar style="light"></StatusBar>
+            <Text>Profile</Text>
         </View>
     )
 }
 
-export default MapScreen
+export default ProfileScreen
 
 const styles = StyleSheet.create({})
