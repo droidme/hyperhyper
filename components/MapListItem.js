@@ -11,7 +11,7 @@ const sum_alert = (obj) => {
   return sum;
 }
 
-const HyperMapListItem = ({ map, enterMap }) => {
+const MapListItem = ({ map, enterMap }) => {
   const { id, NAME, ALERTS } = map;
   return (
     <ListItem onPress={() => enterMap(map)}>
@@ -38,4 +38,4 @@ const HyperMapListItem = ({ map, enterMap }) => {
   );
 };
 
-export default HyperMapListItem;
+export default MapListItem;

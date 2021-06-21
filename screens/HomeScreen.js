@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView, ScrollView, ActivityIndicator, Touchabl
 import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { auth, db } from "../firebase.js";
-import HyperMapListItem from "../components/HyperMapListItem.js";
+import MapListItem from "../components/MapListItem.js";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -49,10 +49,9 @@ const HomeScreen = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(data);
         setMaps(data);
+        setLoading(false);
       });
-    setLoading(false);
     return unsubscribe
   }, []);
 
@@ -75,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        {maps.map(m => <HyperMapListItem key={m.id} map={m} enterMap={() => enterMap(m)} />)}
+        {maps.map(m => <MapListItem key={m.id} map={m} enterMap={() => enterMap(m)} />)}
       </ScrollView>
     </SafeAreaView>
   );
@@ -102,4 +101,7 @@ const styles = StyleSheet.create({
     width: 80,
     marginRight: 20,
   },
+  activityIndicator: {
+    height: "100%"
+  }
 });
