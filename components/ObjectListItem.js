@@ -9,7 +9,7 @@ const ObjectListItem = ({ object, enterObject }) => {
     <ListItem onPress={() => enterObject(object)}>
       <StatusIcon status={OBJ_ALARMSTATE} />
       <ListItem.Content>
-        <ListItem.Title style={{ fontWeight: "800" }}>
+        <ListItem.Title numberOfLines={1} ellipsizeMode="tail" style={{ fontWeight: "800" }}>
           {OBJ_NAME}
         </ListItem.Title>
         <ListItem.Subtitle numberOfLines={2} ellipsizeMode="tail">

@@ -1,5 +1,6 @@
 import React from "react";
 import { ListItem, Avatar, Badge } from "react-native-elements";
+import StatusBadge from "./StatusBadge.js";
 
 const sum_alert = (obj) => {
   var sum = 0;
@@ -16,11 +17,8 @@ const MapListItem = ({ map, enterMap }) => {
   return (
     <ListItem onPress={() => enterMap(map)}>
       <Avatar rounded source={require("../assets/map.png")} />
-      {ALERTS.CRITICAL > 0 && <Badge
-        value={ALERTS.CRITICAL}
-        containerStyle={{ position: 'absolute', top: 10, left: 40 }}
-        status="error"
-      />}
+      <StatusBadge alerts={ALERTS}
+        containerStyle={{ position: 'absolute', top: 10, left: 40 }} />
       <ListItem.Content>
         <ListItem.Title style={{ fontWeight: "800" }}>
           {NAME}
@@ -29,11 +27,7 @@ const MapListItem = ({ map, enterMap }) => {
           Subtitle Text
         </ListItem.Subtitle>
       </ListItem.Content>
-      <Badge
-        value={sum_alert(ALERTS)}
-        containerStyle={{ marginTop: -20 }}
-      />
-
+      <ListItem.Chevron />
     </ListItem>
   );
 };

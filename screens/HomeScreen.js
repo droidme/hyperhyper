@@ -25,9 +25,6 @@ const HomeScreen = ({ navigation }) => {
       ),
       headerRight: () => (
         <View style={styles.headerRightContainer}>
-          <TouchableOpacity disabled onPress={() => navigation.navigate("Play")}>
-            <SimpleLineIcons name="settings" size={24} color="black" />
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("AddMap")}>
             <SimpleLineIcons name="plus" size={24} color="black" />
           </TouchableOpacity>
@@ -98,7 +95,7 @@ const styles = StyleSheet.create({
   headerRightContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: 80,
+    width: 30,
     marginRight: 20,
   },
   activityIndicator: {

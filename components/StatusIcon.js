@@ -1,17 +1,18 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
-import { MaterialIcons } from "@expo/vector-icons";
+import { StyleSheet } from 'react-native';
+import { AntDesign } from "@expo/vector-icons";
 
 const StatusIcon = ({ status, size = 24 }) => {
     switch (status) {
         case "1":
-            return <MaterialIcons name="error" size={size} color="red" />;
+            return <AntDesign name="exclamationcircleo" size={size} color="red" />;
         case "2":
-            return <MaterialIcons name="warning" size={size} color="orange" />;
-        case "3", "4":
-            return <MaterialIcons name="warning" size={size} color="yellow" />;
+            return <AntDesign name="warning" size={size} color="orange" />;
+        case "3":
+        case "4":
+            return <AntDesign name="warning" size={size} color="#FDC12A" />;
         default:
-            return <></>;
+            return <AntDesign name="checkcircleo" size={size} color="green" />;
     }
 }
 
