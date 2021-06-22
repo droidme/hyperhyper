@@ -68,7 +68,7 @@ const AddMapScreen = ({ navigation }) => {
       </ListItem.Content>
       <Switch
         onValueChange={(value) => value ? addMap(item.id) : removeMap(item.id)}
-        value={userMaps.indexOf(id) >= 0}
+        value={userMaps.indexOf(item.id) >= 0}
       />
     </ListItem>
   );
