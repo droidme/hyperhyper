@@ -11,12 +11,16 @@ const AddMapScreen = ({ navigation }) => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    const unsubscribe = db.collection("users")
-      .doc(auth.currentUser.uid)
-      .onSnapshot((doc) => {
-        setUserMaps(doc.data().maps);
-      });
-    return unsubscribe
+    const userRef = db.collection("users")
+      .doc(auth.currentUser.uid);
+
+    userRef.get().then((docSnapshot) => {
+      if (!docSnapshot.exists) {
+        userRef.set({ maps: [] })
+      }
+    });
+
+    return userRef.onSnapshot((doc) => setUserMaps(doc.data()?.maps));
   }, []);
 
   useEffect(() => {
@@ -68,7 +72,7 @@ const AddMapScreen = ({ navigation }) => {
       </ListItem.Content>
       <Switch
         onValueChange={(value) => value ? addMap(item.id) : removeMap(item.id)}
-        value={userMaps.indexOf(item.id) >= 0}
+        value={userMaps?.indexOf(item.id) >= 0}
       />
     </ListItem>
   );

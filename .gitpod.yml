@@ -24,8 +24,8 @@ tasks:
       avdmanager create avd --force --name testAVD --abi google_apis/x86 --package "system-images;android-28;google_apis;x86"
       
       echo "Installing npm dependencies..."
-      npm install
       cd /workspace/hyperhyper/
+      npm install
       expo doctor
     command: |
       npm start

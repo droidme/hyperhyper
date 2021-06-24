@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { Image, Button, Input } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
-import { auth } from "../firebase.js";
+import { auth, db } from "../firebase.js";
+import firebase from "firebase";
 import { Alert } from "react-native";
 
 const LoginScreen = ({ navigation }) => {
@@ -13,6 +14,22 @@ const LoginScreen = ({ navigation }) => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log('authUser:' + authUser?.email);
       if (authUser) {
+
+        const userRef = db.collection("users")
+          .doc(authUser.uid);
+
+        userRef.get().then((docSnapshot) => {
+          if (!docSnapshot.exists) {
+            userRef.set({
+              uid: authUser.uid,
+              maps: []
+            })
+          }
+          userRef.update({
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        });
+
         navigation.replace("Home");
       }
     });
@@ -24,7 +41,7 @@ const LoginScreen = ({ navigation }) => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((cred) => {
-        console.log('credentials:' + cred);
+        console.log('credentials:', cred);
       })
       .catch((err) => Alert.alert(err.message));
   };
