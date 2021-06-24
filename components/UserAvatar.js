@@ -4,7 +4,7 @@ import { auth } from '../firebase.js';
 
 const UserAvatar = (props) => {
 
-    if (auth.currentUser.photoURL) {
+    if (auth.currentUser?.photoURL) {
         return (
             <Avatar rounded source={{ uri: auth.currentUser.photoURL }}  {...props} />
         );

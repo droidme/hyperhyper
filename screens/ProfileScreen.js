@@ -1,10 +1,10 @@
 import React, { useLayoutEffect } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native-elements';
-
+import { Text, Button } from 'react-native-elements';
 import { auth } from '../firebase.js';
 import { UserAvatar } from '../components';
+
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -15,47 +15,32 @@ const ProfileScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
+    const signOut = () => {
+        auth.signOut().then(() => {
+            navigation.replace("Login");
+        });
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light"></StatusBar>
 
             <View style={styles.profileTopSection}>
-                <View style={{ flexDirection: 'row', marginTop: 25 }}>
+                <View style={{ flexDirection: 'row' }}>
                     <UserAvatar size={100} />
                     <View style={{ marginLeft: 20 }}>
-                        <Text style={[styles.title, {
-                            marginTop: 15,
-                            marginBottom: 5,
-                        }]}>{auth.currentUser.displayName}</Text>
+                        <Text style={styles.title}>{auth.currentUser.displayName}</Text>
                         <Text style={styles.caption}>{auth.currentUser.email}</Text>
                     </View>
                 </View>
             </View>
 
             <View style={styles.profileSettingsSection}>
-                <View style={{ flexDirection: 'row', marginTop: 25 }}>
-                    <UserAvatar size={100} />
-                    <View style={{ marginLeft: 20 }}>
-                        <Text style={[styles.title, {
-                            marginTop: 15,
-                            marginBottom: 5,
-                        }]}>{auth.currentUser.displayName}</Text>
-                        <Text style={styles.caption}>{auth.currentUser.email}</Text>
-                    </View>
-                </View>
+                <Text>Settings</Text>
             </View>
 
             <View style={styles.profileButtonsSection}>
-                <View style={{ flexDirection: 'row', marginTop: 25 }}>
-                    <UserAvatar size={100} />
-                    <View style={{ marginLeft: 20 }}>
-                        <Text style={[styles.title, {
-                            marginTop: 15,
-                            marginBottom: 5,
-                        }]}>{auth.currentUser.displayName}</Text>
-                        <Text style={styles.caption}>{auth.currentUser.email}</Text>
-                    </View>
-                </View>
+                <Button containerStyle={styles.btn} title="Logout" onPress={signOut} />
             </View>
 
         </SafeAreaView>
@@ -75,9 +60,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     profileSettingsSection: {
-        flex: 3,
-        padding: 20,
-        borderBottomWidth: 1
+        flex: 4,
+        padding: 20
     },
     profileButtonsSection: {
         flex: 1,

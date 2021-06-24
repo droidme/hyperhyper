@@ -57,11 +57,6 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate("Map", map);
   }
 
-  const signOut = () => {
-    auth.signOut().then(() => {
-      navigation.replace("Login");
-    });
-  };
 
   if (loading) {
     return <ActivityIndicator />;
