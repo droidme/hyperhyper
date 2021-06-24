@@ -9,6 +9,8 @@ const HomeScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [maps, setMaps] = useState([]);
   const [userMaps, setUserMaps] = useState([]);
+  const [userDefinedMaps, setUserDefinedMaps] = useState(false);
+  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,12 +40,16 @@ const HomeScreen = ({ navigation }) => {
 
     userRef.get().then((docSnapshot) => {
       if (!docSnapshot.exists) {
-        userRef.set({ maps: [] })
+        userRef.set({ 
+          maps: [],
+          userDefinedMaps: false
+        })
       }
     });
 
     return userRef.onSnapshot((doc) => {
       setUserMaps(doc.data()?.maps);
+      setUserDefinedMaps(doc.data()?.userDefinedMaps);
       setLoading(false);
     });
   }, []);
@@ -54,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
 
     let mapsRef = db.collection('maps');
 
-    if (userMaps?.length > 0) {
+    if (userDefinedMaps && userMaps?.length > 0) {
       mapsRef = mapsRef.where('uid', 'in', userMaps);
     }
 
@@ -71,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
         setMaps(data);
         setLoading(false);
       });
-  }, [userMaps]);
+  }, [userMaps, userDefinedMaps]);
 
   // some functions
 
