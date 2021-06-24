@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View, Alert, StatusBar, Switch } from "react-native";
-import { Input, ListItem, Avatar } from "react-native-elements";
-import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
+import { FlatList, StyleSheet, View, Alert, StatusBar } from "react-native";
+import { Input, ListItem, Avatar, Switch } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
 import firebase from "firebase";
 
