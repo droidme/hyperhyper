@@ -15,7 +15,7 @@ const sum_alert = (obj) => {
 const MapListItem = ({ map, enterMap }) => {
   const { id, NAME, ALERTS } = map;
   return (
-    <ListItem onPress={() => enterMap(map)}>
+    <ListItem bottomDivider onPress={() => enterMap(map)}>
       <Avatar rounded source={require("../assets/map.png")} />
       <StatusBadge alerts={ALERTS}
         containerStyle={{ position: 'absolute', top: 10, left: 40 }} />

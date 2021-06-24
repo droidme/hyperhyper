@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View, TouchableOpacity, StatusBar, Switch } from "react-native";
-import { Input, ListItem, Avatar } from "react-native-elements";
-import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
+import { FlatList, StyleSheet, View, Alert, StatusBar } from "react-native";
+import { Input, ListItem, Avatar, Switch } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
 import firebase from "firebase";
 
@@ -40,11 +40,15 @@ const AddMapScreen = ({ navigation }) => {
   }, [filter]);
 
   const addMap = async (mapId) => {
-    await db.collection("users")
-      .doc(auth.currentUser.uid)
-      .update({
-        maps: firebase.firestore.FieldValue.arrayUnion(mapId)
-      });
+    if (userMaps.length < 10) {
+      await db.collection("users")
+        .doc(auth.currentUser.uid)
+        .update({
+          maps: firebase.firestore.FieldValue.arrayUnion(mapId)
+        });
+    } else {
+      Alert.alert("You can select a maximum of 10 maps!");
+    }
   };
 
   const removeMap = async (mapId) => {

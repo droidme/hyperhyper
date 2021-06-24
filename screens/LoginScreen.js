@@ -37,7 +37,6 @@ const LoginScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-
   const signIn = async () => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
