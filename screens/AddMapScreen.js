@@ -57,8 +57,8 @@ const AddMapScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Add a new Map",
-      headerBackTitle: "Hyper",
+      title: "Add user defined Maps",
+      headerBackTitle: "Profile",
     });
   }, [navigation]);
 

@@ -11,29 +11,38 @@ import {
   AddMapScreen,
   MapScreen
 } from "./screens";
+import { ThemeProvider } from "react-native-elements";
 
 const Stack = createStackNavigator();
 
+const theme = {
+  colors: {
+    primary: '#172B46',
+  },
+};
+
 const globalScreenOptions = {
-  headerStyle: { backgroundColor: "#172B46" },
+  headerStyle: { backgroundColor: theme.colors.primary },
   headerTitleStyle: { color: "white" },
   headerTintColor: "white",
+  backgroundColor: "white"
 };
 
 export default function App() {
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={globalScreenOptions}>
-        <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
-        <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
-        <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-        <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
-        <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
-        <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
-
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={globalScreenOptions}>
+          <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+          <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
+          <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+          <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
+          <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
+          <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
 

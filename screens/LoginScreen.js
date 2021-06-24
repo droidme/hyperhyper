@@ -37,15 +37,14 @@ const LoginScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  const signIn = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((cred) => {
-        console.log('credentials:', cred);
-      })
-      .catch((err) => Alert.alert(err.message));
-  };
 
+  const signIn = async () => {
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>

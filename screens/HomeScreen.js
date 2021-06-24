@@ -17,14 +17,12 @@ const HomeScreen = ({ navigation }) => {
       headerTintStyle: styles.headerTintStyle,
       headerLeft: () => (
         <View style={styles.headerLeftContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("Profile")}>
-            <UserAvatar />
-          </TouchableOpacity>
+          <UserAvatar />
         </View>
       ),
       headerRight: () => (
         <View style={styles.headerRightContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("AddMap")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
             <SimpleLineIcons name="settings" size={24} color="black" />
           </TouchableOpacity>
         </View>
