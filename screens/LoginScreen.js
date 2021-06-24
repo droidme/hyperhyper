@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
-import { Image, Button, Input, Icon } from "react-native-elements";
+import { Image, Button, Input } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
 import { auth, db } from "../firebase.js";
 import firebase from "firebase";
@@ -37,17 +37,6 @@ const LoginScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-
-  const signInGoogle = async () => {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    try {
-      await auth.signInWithPopup(provider);
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
-
   const signIn = async () => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
@@ -82,11 +71,6 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <Button containerStyle={styles.btn} title="Login" onPress={signIn} />
-      <Button containerStyle={styles.btn} title=" Login"
-        icon={
-          <Icon name="google" type="antdesign" color="white" />
-        }
-        onPress={signInGoogle} />
       <Button
         containerStyle={styles.btn}
         type="outline"
