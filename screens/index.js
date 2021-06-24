@@ -4,7 +4,6 @@ import ProfileScreen from "./ProfileScreen.js"
 import HomeScreen from "./HomeScreen.js"
 import AddMapScreen from "./AddMapScreen.js"
 import MapScreen from "./MapScreen.js"
-import PlayWithFireBase from "./PlayWithFireBase.js"
 
 export {
     LoginScreen,
@@ -13,5 +12,4 @@ export {
     HomeScreen,
     AddMapScreen,
     MapScreen,
-    PlayWithFireBase
 }
