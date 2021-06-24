@@ -25,7 +25,6 @@ const globalScreenOptions = {
   headerStyle: { backgroundColor: theme.colors.primary },
   headerTitleStyle: { color: "white" },
   headerTintColor: "white",
-  backgroundColor: "white"
 };
 
 export default function App() {
@@ -37,9 +36,9 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
           <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
           <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+          <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
           <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
           <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
-          <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

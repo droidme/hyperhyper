@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, ListItem, Switch } from 'react-native-elements';
 import { auth, db } from '../firebase.js';
 import { UserAvatar } from '../components';
+import { TouchableOpacity } from 'react-native';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -21,14 +22,17 @@ const ProfileScreen = ({ navigation }) => {
         const unsubscribe = db
             .collection("users")
             .doc(auth.currentUser.uid)
-            .onSnapshot((snap) => setUserDefinedMaps(snap.data()?.userDefinedMaps));
+            .onSnapshot((snap) => {
+                setUserDefinedMaps(snap.data()?.userDefinedMaps);
+            });
 
         return unsubscribe;
     }, []);
 
     const signOut = () => {
         auth.signOut().then(() => {
-            navigation.replace("Login");
+            navigation.popToTop();
+            navigation.replace('Login');
         });
     };
 
@@ -40,13 +44,23 @@ const ProfileScreen = ({ navigation }) => {
             });
     };
 
+
+
+    const changeDarkTheme = async (value) => {
+        await db.collection("users")
+            .doc(auth.currentUser.uid)
+            .update({
+                darkTheme: value
+            });
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light"></StatusBar>
 
             <View style={styles.profileTopSection}>
                 <View style={{ alignItems: 'center' }}>
-                    <UserAvatar size={100} />
+                    <UserAvatar changeable size={100} />
                     <View style={{ alignItems: 'center', marginTop: 10 }}>
                         <Text style={styles.title}>{auth.currentUser.displayName}</Text>
                         <Text style={styles.caption}>{auth.currentUser.email}</Text>
@@ -84,7 +98,7 @@ const ProfileScreen = ({ navigation }) => {
 
             </View>
 
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
