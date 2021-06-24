@@ -9,9 +9,8 @@ import {
   ProfileScreen,
   HomeScreen,
   AddMapScreen,
-  MapScreen,
-  PlayWithFireBase
-} from "./screens/index.js";
+  MapScreen
+} from "./screens";
 
 const Stack = createStackNavigator();
 
@@ -32,7 +31,6 @@ export default function App() {
         <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
         <Stack.Screen name="AddMap" component={AddMapScreen}></Stack.Screen>
         <Stack.Screen name="Map" component={MapScreen}></Stack.Screen>
-        <Stack.Screen name="Play" component={PlayWithFireBase}></Stack.Screen>
 
       </Stack.Navigator>
     </NavigationContainer>

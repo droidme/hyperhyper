@@ -1,12 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, View, Modal, TouchableOpacity } from 'react-native'
-import { Text, Button, Card } from 'react-native-elements';
-import ObjectKeyValueItem from '../components/ObjectKeyValueItem.js';
-import ObjectListItem from '../components/ObjectListItem.js';
+import {
+    ActivityIndicator,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    View,
+    Modal,
+    TouchableOpacity
+} from 'react-native'
+import { Text, Card } from 'react-native-elements';
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { StatusBar } from 'expo-status-bar';
 import { db } from '../firebase.js';
-import StatusIcon from '../components/StatusIcon.js';
+import {
+    StatusIcon,
+    ObjectKeyValueItem,
+    ObjectListItem
+} from '../components';
 
 const MapScreen = ({ navigation, route }) => {
 

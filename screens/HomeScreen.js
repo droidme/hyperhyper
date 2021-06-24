@@ -1,9 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, View, SafeAreaView, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
-import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { auth, db } from "../firebase.js";
-import MapListItem from "../components/MapListItem.js";
+import { UserAvatar, MapListItem } from "../components";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -18,8 +17,8 @@ const HomeScreen = ({ navigation }) => {
       headerTintStyle: styles.headerTintStyle,
       headerLeft: () => (
         <View style={styles.headerLeftContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={signOut}>
-            <Avatar rounded source={require("../assets/avatar.png")} />
+          <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("Profile")}>
+            <UserAvatar />
           </TouchableOpacity>
         </View>
       ),
