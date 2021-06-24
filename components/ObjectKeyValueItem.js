@@ -5,7 +5,7 @@ import StatusIcon from "./StatusIcon.js";
 
 const ObjectKeyValueItem = ({ k, v }) => {
   return (
-    <ListItem>
+    <ListItem bottomDivider>
       <ListItem.Content>
         <ListItem.Title style={{ fontWeight: "800" }}>
           {k}

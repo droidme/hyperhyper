@@ -39,7 +39,8 @@ const MapScreen = ({ navigation, route }) => {
             .collection(`maps/${id}/objects`)
             .orderBy('OBJ_ALARMSTATE')
             .onSnapshot((snapshot) => {
-                const data = snapshot.docs.map((doc) => ({
+                const data = snapshot.docs
+                .map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
