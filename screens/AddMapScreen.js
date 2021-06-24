@@ -1,38 +1,58 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View, TouchableOpacity, StatusBar } from "react-native";
-import { Input, Text, ListItem, Avatar } from "react-native-elements";
+import { FlatList, StyleSheet, View, TouchableOpacity, StatusBar, Switch } from "react-native";
+import { Input, ListItem, Avatar } from "react-native-elements";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
+import firebase from "firebase";
 
 const AddMapScreen = ({ navigation }) => {
   const [maps, setMaps] = useState([]);
-  const [filter, setFilter] = useState(null);
+  const [userMaps, setUserMaps] = useState([]);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    const userRef = db.collection("users")
+      .doc(auth.currentUser.uid);
+
+    userRef.get().then((docSnapshot) => {
+      if (!docSnapshot.exists) {
+        userRef.set({ maps: [] })
+      }
+    });
+
+    return userRef.onSnapshot((doc) => setUserMaps(doc.data()?.maps));
+  }, []);
 
   useEffect(() => {
     const unsubscribe = db
-      .collection('maps')
+      .collection("maps")
+      .where("NAME", ">=", filter)
+      .where("NAME", "<=", filter + "~")
+      .orderBy("NAME")
       .onSnapshot((snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+        const maps = snapshot.docs.map((map) => ({
+          id: map.id,
+          ...map.data(),
         }));
-        console.log(data);
-        setMaps(data);
+        setMaps(maps);
       });
     return unsubscribe
-  }, []);
+  }, [filter]);
 
-  const addMap = async (map) => {
-    await db
-      .collection("userMaps")
-      .add({
-        user: auth.currentUser.uid,
-        map: map.id,
-      })
-      .then(() => {
-        //navigation.goBack();
-      })
-      .catch((error) => alert(error));
+  const addMap = async (mapId) => {
+    await db.collection("users")
+      .doc(auth.currentUser.uid)
+      .update({
+        maps: firebase.firestore.FieldValue.arrayUnion(mapId)
+      });
+  };
+
+  const removeMap = async (mapId) => {
+    await db.collection("users")
+      .doc(auth.currentUser.uid)
+      .update({
+        maps: firebase.firestore.FieldValue.arrayRemove(mapId)
+      });
   };
 
   useLayoutEffect(() => {
@@ -42,18 +62,18 @@ const AddMapScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-
   const keyExtractor = (item, index) => index.toString();
 
   const renderMapItem = ({ item }) => (
     <ListItem bottomDivider>
-      <Avatar source={require('../assets/map.png')} />
+      <Avatar source={require("../assets/map.png")} />
       <ListItem.Content>
         <ListItem.Title>{item.NAME}</ListItem.Title>
       </ListItem.Content>
-      <TouchableOpacity onPress={() => addMap(item)}>
-        <SimpleLineIcons name="plus" size={24} color="black" />
-      </TouchableOpacity>
+      <Switch
+        onValueChange={(value) => value ? addMap(item.id) : removeMap(item.id)}
+        value={userMaps?.indexOf(item.id) >= 0}
+      />
     </ListItem>
   );
 
@@ -71,7 +91,6 @@ const AddMapScreen = ({ navigation }) => {
         data={maps}
         renderItem={renderMapItem}
       />
-      <Text>{filter}</Text>
     </View>
   );
 };
