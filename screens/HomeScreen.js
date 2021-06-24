@@ -8,6 +8,7 @@ const HomeScreen = ({ navigation }) => {
 
   const [loading, setLoading] = useState(true);
   const [maps, setMaps] = useState([]);
+  const [userMaps, setUserMaps] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,10 +31,34 @@ const HomeScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    setLoading(true);
+    const userRef = db.collection("users")
+      .doc(auth.currentUser.uid);
+
+    userRef.get().then((docSnapshot) => {
+      if (!docSnapshot.exists) {
+        userRef.set({ maps: [] })
+      }
+    });
+
+    return userRef.onSnapshot((doc) => {
+      setUserMaps(doc.data()?.maps);
+      setLoading(false);
+    });
+  }, []);
+
   // load data
   useEffect(() => {
-    const unsubscribe = db
-      .collection('maps')
+    setLoading(true);
+
+    let mapsRef = db.collection('maps');
+
+    if (userMaps?.length > 0) {
+      mapsRef = mapsRef.where('uid', 'in', userMaps);
+    }
+
+    return mapsRef
       .orderBy('ALERTS.CRITICAL', 'desc')
       .orderBy('ALERTS.MAJOR', 'desc')
       .orderBy('ALERTS.WARNING', 'desc')
@@ -46,8 +71,7 @@ const HomeScreen = ({ navigation }) => {
         setMaps(data);
         setLoading(false);
       });
-    return unsubscribe
-  }, []);
+  }, [userMaps]);
 
   // some functions
 
