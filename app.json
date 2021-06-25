@@ -20,11 +20,18 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1.0.0",
-      "bundleIdentifier": "coba.hyper.hyper"
+      "bundleIdentifier": "coba.hyper.hyper",
+      "googleServicesFile": "GoogleService-Info.plist",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.652220259634-v039dc3can3s6242qs8uct3ph4ls1qb9"
+        }
+      }
     },
     "android": {
       "package": "coba.hyper.hyper",
       "versionCode": 1,
+      "googleServicesFile": "google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
