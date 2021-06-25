@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
-import { Image, Button, Input } from "react-native-elements";
+import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
+import { Image, Button, ButtonGroup, Input, Text, Icon } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
 import { auth, db } from "../firebase.js";
 import firebase from "firebase";
 import { Alert } from "react-native";
-import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-google-app-auth';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-
-    initGoogleSignIn();
-
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log(Platform.OS, Platform.Version);
       console.log('authUser:' + authUser?.email);
       if (authUser) {
 
@@ -41,32 +39,44 @@ const LoginScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  const initGoogleSignIn = async () => {
-    await GoogleSignIn.initAsync({
-      clientId: "652220259634-v039dc3can3s6242qs8uct3ph4ls1qb9.apps.googleusercontent.com"
-    });
-  };
-
-  const googleSignIn = async () => {
+  const signIn = async (index) => {
     try {
-      const playServices = await GoogleSignIn.askForPlayServicesAsync();
-      console.log(playServices);
-      if (playServices) {
-        const auth = await GoogleSignIn.signInAsync();
-        console.dir(auth);
+      console.log(index);
+      switch (index) {
+        case 0:
+          await auth.signInWithEmailAndPassword(email, password);
+          break;
+        case 1:
+
+          const config = {
+            expoClientId: "652220259634-ac0ktaoodg1k886vra2ucn8p62r29k3j.apps.googleusercontent.com",
+            iosClientId: "652220259634-rfnkede9osrftut4k0ie6670fdil7ikq.apps.googleusercontent.com",
+            iosStandaloneAppClientId: "652220259634-v039dc3can3s6242qs8uct3ph4ls1qb9.apps.googleusercontent.com",
+            androidClientId: "652220259634-ac0ktaoodg1k886vra2ucn8p62r29k3j.apps.googleusercontent.com",
+            androidStandaloneAppClientId: "652220259634-ac0ktaoodg1k886vra2ucn8p62r29k3j.apps.googleusercontent.com",
+            scopes: ['profile', 'email']
+          };
+
+          const { type, idToken, accessToken } = await Google.logInAsync(config);
+          if (type === "success") {
+            const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+            await firebase.auth().signInWithCredential(credential);
+          }
+          break;
+        default:
+          Alert.alert("undefind sign in methods!");
       }
     } catch (error) {
       Alert.alert(error.message);
     }
   }
 
-  const signIn = async () => {
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
+
+  const buttons = [{
+    element: () => <Text>Sign in</Text>
+  }, {
+    element: () => <Icon name="google" type="font-awesome" />
+  }]
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -93,7 +103,12 @@ const LoginScreen = ({ navigation }) => {
           onSubmitEditing={signIn}
         />
       </View>
-      <Button containerStyle={styles.btn} title="Login" onPress={signIn} />
+      <ButtonGroup
+        buttons={buttons}
+        onPress={signIn}
+        containerStyle={styles.btn}
+      />
+
       <Button
         containerStyle={styles.btn}
         type="outline"
@@ -101,7 +116,6 @@ const LoginScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Register")}
       />
 
-      <Button containerStyle={styles.btn} title="Sign in with Google" onPress={googleSignIn} />
 
       <View style={{ height: 120 }} />
     </KeyboardAvoidingView>
