@@ -5,12 +5,16 @@ import { StatusBar } from "expo-status-bar";
 import { auth, db } from "../firebase.js";
 import firebase from "firebase";
 import { Alert } from "react-native";
+import * as GoogleSignIn from 'expo-google-sign-in';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
+
+    initGoogleSignIn();
+
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log('authUser:' + authUser?.email);
       if (authUser) {
@@ -36,6 +40,25 @@ const LoginScreen = ({ navigation }) => {
 
     return unsubscribe;
   }, []);
+
+  const initGoogleSignIn = async () => {
+    await GoogleSignIn.initAsync({
+      clientId: "652220259634-v039dc3can3s6242qs8uct3ph4ls1qb9.apps.googleusercontent.com"
+    });
+  };
+
+  const googleSignIn = async () => {
+    try {
+      const playServices = await GoogleSignIn.askForPlayServicesAsync();
+      console.log(playServices);
+      if (playServices) {
+        const auth = await GoogleSignIn.signInAsync();
+        console.dir(auth);
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  }
 
   const signIn = async () => {
     try {
@@ -77,6 +100,9 @@ const LoginScreen = ({ navigation }) => {
         title="Register"
         onPress={() => navigation.navigate("Register")}
       />
+
+      <Button containerStyle={styles.btn} title="Sign in with Google" onPress={googleSignIn} />
+
       <View style={{ height: 120 }} />
     </KeyboardAvoidingView>
   );
