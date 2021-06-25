@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "652220259634",
+    "project_id": "cobalu-hyperhyper",
+    "storage_bucket": "cobalu-hyperhyper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652220259634:android:b7ded2b99b4e120c09cb2b",
+        "android_client_info": {
+          "package_name": "coba.hyper.hyper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652220259634-ac0ktaoodg1k886vra2ucn8p62r29k3j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq5lmFopIN2adrx0QpD5nx_GMSek7exZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652220259634-ac0ktaoodg1k886vra2ucn8p62r29k3j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "652220259634-v039dc3can3s6242qs8uct3ph4ls1qb9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "coba.hyper.hyper"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
