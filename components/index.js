@@ -4,6 +4,7 @@ import ObjectListItem from "./ObjectListItem.js";
 import StatusBadge from "./StatusBadge.js";
 import StatusIcon from "./StatusIcon.js";
 import UserAvatar from "./UserAvatar.js";
+import ChangeableAvatar from "./ChangeableAvatar.js";
 
 export {
     MapListItem,
@@ -11,5 +12,6 @@ export {
     ObjectListItem,
     StatusBadge,
     StatusIcon,
-    UserAvatar
+    UserAvatar,
+    ChangeableAvatar
 }

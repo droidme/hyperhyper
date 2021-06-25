@@ -15,6 +15,7 @@ const LoginScreen = ({ navigation }) => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log(Platform.OS, Platform.Version);
       console.log('authUser:' + authUser?.email);
+      console.log('providerID', authUser?.providerData[0].providerId);
       if (authUser) {
 
         const userRef = db.collection("users")
@@ -100,7 +101,7 @@ const LoginScreen = ({ navigation }) => {
           type="password"
           value={password}
           onChangeText={(text) => setPassword(text)}
-          onSubmitEditing={signIn}
+          onSubmitEditing={() => signIn(0)}
         />
       </View>
       <ButtonGroup

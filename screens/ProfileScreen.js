@@ -3,13 +3,13 @@ import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar';
 import { Text, ListItem, Switch } from 'react-native-elements';
 import { auth, db } from '../firebase.js';
-import { UserAvatar } from '../components';
-import { TouchableOpacity } from 'react-native';
+import { UserAvatar, ChangeableAvatar } from '../components';
 
 
 const ProfileScreen = ({ navigation }) => {
 
     const [userDefinedMaps, setUserDefinedMaps] = useState(false);
+    const [providerID, setProviderID] = useState("");
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -29,6 +29,12 @@ const ProfileScreen = ({ navigation }) => {
         return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        const { providerId } = auth.currentUser.providerData[0];
+        setProviderID(providerId);
+
+    }, [auth.currentUser])
+
     const signOut = () => {
         auth.signOut().then(() => {
             navigation.popToTop();
@@ -44,23 +50,17 @@ const ProfileScreen = ({ navigation }) => {
             });
     };
 
-
-
-    const changeDarkTheme = async (value) => {
-        await db.collection("users")
-            .doc(auth.currentUser.uid)
-            .update({
-                darkTheme: value
-            });
-    };
-
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light"></StatusBar>
 
             <View style={styles.profileTopSection}>
                 <View style={{ alignItems: 'center' }}>
-                    <UserAvatar changeable size={100} />
+                    {
+                        providerID == 'password' ?
+                            <ChangeableAvatar size={100} /> :
+                            <UserAvatar size={100} />
+                    }
                     <View style={{ alignItems: 'center', marginTop: 10 }}>
                         <Text style={styles.title}>{auth.currentUser.displayName}</Text>
                         <Text style={styles.caption}>{auth.currentUser.email}</Text>
