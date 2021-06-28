@@ -1,4 +1,5 @@
 import React from "react";
+import { Text } from "react-native";
 import { ListItem, Avatar, Badge } from "react-native-elements";
 import StatusBadge from "./StatusBadge.js";
 
@@ -13,7 +14,7 @@ const sum_alert = (obj) => {
 }
 
 const MapListItem = ({ map, enterMap }) => {
-  const { id, NAME, ALERTS } = map;
+  const { id, NAME, ALERTS, lastChanged } = map;
   return (
     <ListItem bottomDivider onPress={() => enterMap(map)}>
       <Avatar rounded source={require("../assets/map.png")} />
@@ -24,7 +25,7 @@ const MapListItem = ({ map, enterMap }) => {
           {NAME}
         </ListItem.Title>
         <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-          Subtitle Text
+          <Text>{lastChanged && new Date(lastChanged.seconds * 1000).toISOString()}</Text>
         </ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron />

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
-import { Alert } from "react-native";
 import { StatusBar } from "react-native";
 import { Button, Text, Input, Image } from "react-native-elements";
 import { auth } from "../firebase.js";
@@ -9,15 +8,13 @@ const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
 
   const register = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         authUser.user.updateProfile({
-          displayName: name,
-          photoURL: imageUrl
+          displayName: name
         });
       })
       .catch((error) => alert(error.message));
@@ -54,12 +51,6 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry
           value={password}
           onChangeText={(text) => setPassword(text)}
-        />
-        <Input
-          placeholder="Profile Picture url (optional)"
-          type="text"
-          value={imageUrl}
-          onChangeText={(text) => setImageUrl(text)}
           onSubmitEditing={register}
         />
       </View>
