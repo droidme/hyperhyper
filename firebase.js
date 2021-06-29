@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import "firebase/analytics";
 
 //import "firebase/messaging";
 //import "firebase/database";
@@ -30,7 +31,8 @@ const firebaseConfig = {
   projectId: "cobalu-hyperhyper",
   storageBucket: "cobalu-hyperhyper.appspot.com",
   messagingSenderId: "652220259634",
-  appId: "1:652220259634:web:81fdfc0ccc26574e09cb2b"
+  appId: "1:652220259634:web:81fdfc0ccc26574e09cb2b",
+  measurementId: "G-6Y1F93GKF6"
 };
 
 
