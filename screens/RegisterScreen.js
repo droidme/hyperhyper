@@ -21,8 +21,10 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="light"></StatusBar>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}>
+      <StatusBar style="light" />
       <Image
         source={require("../assets/hyper.png")}
         style={{ width: 150, height: 150, marginBottom: 50 }}
@@ -55,7 +57,7 @@ const RegisterScreen = ({ navigation }) => {
         />
       </View>
       <Button title="Register" containerStyle={styles.btn} onPress={register} />
-      <View style={{ height: 120 }} />
+      <View style={{ height: 220 }} />
     </KeyboardAvoidingView>
   );
 };
