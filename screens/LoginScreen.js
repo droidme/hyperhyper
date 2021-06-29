@@ -14,16 +14,16 @@ const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      console.log(Platform.OS, Platform.Version);
-      console.log('authUser:' + authUser?.email);
-      console.log('providerID', authUser?.providerData[0].providerId);
       if (authUser) {
-
-        Analytics.logEvent('login', {
-          user_uid: authUser.uid,
-          platform_os: Platform.OS,
-          platform_version: Platform.Version
-        });
+        try {
+          Analytics.setUserId(authUser.uid);
+          Analytics.logEvent('login', {
+            platform_os: Platform.OS,
+            platform_version: Platform.Version
+          });
+        } catch (error) {
+          console.log(error.message);
+        }
 
         const userRef = db.collection("users")
           .doc(authUser.uid);
@@ -49,7 +49,6 @@ const LoginScreen = ({ navigation }) => {
 
   const signIn = async (index) => {
     try {
-      console.log(index);
       switch (index) {
         case 0:
           await auth.signInWithEmailAndPassword(email, password);
