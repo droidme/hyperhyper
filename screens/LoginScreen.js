@@ -6,6 +6,7 @@ import { auth, db } from "../firebase.js";
 import firebase from "firebase";
 import { Alert } from "react-native";
 import * as Google from 'expo-google-app-auth';
+import * as Analytics from 'expo-firebase-analytics';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,12 @@ const LoginScreen = ({ navigation }) => {
       console.log('authUser:' + authUser?.email);
       console.log('providerID', authUser?.providerData[0].providerId);
       if (authUser) {
+
+        Analytics.logEvent('login', {
+          user_uid: authUser.uid,
+          platform_os: Platform.OS,
+          platform_version: Platform.Version
+        });
 
         const userRef = db.collection("users")
           .doc(authUser.uid);
