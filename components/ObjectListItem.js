@@ -9,7 +9,6 @@ const ObjectListItem = ({ object, enterObject }) => {
   const { OBJ_NAME, OBJ_DESCRIPTION, OBJ_ALARMSTATE, OBJTYPE } = object;
 
   const renderObjType = (objType) => {
-    console.log("renderObjectType", objType)
     switch (objType) {
       case "Database":
         return <Feather name="database" size={22} style={styles.objTypeIcon}  />;
@@ -40,7 +39,7 @@ const ObjectListItem = ({ object, enterObject }) => {
 
 const styles = StyleSheet.create({
   objTypeIcon: {
-    marginRight: "4px",
+    marginRight: "4pt",
   },
 })
 
