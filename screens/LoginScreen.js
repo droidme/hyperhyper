@@ -80,8 +80,10 @@ const LoginScreen = ({ navigation }) => {
   }]
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="light"></StatusBar>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}>
+      <StatusBar style="light" />
       <Image
         source={require("../assets/hyper.png")}
         style={{ width: 150, height: 150, marginBottom: 50 }}
